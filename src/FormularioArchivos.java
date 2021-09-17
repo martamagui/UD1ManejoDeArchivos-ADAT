@@ -4,9 +4,15 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+
+import botones.RoundButton;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
@@ -14,6 +20,8 @@ import java.io.*;
 import java.util.Scanner;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class FormularioArchivos extends JFrame {
 
@@ -23,13 +31,15 @@ public class FormularioArchivos extends JFrame {
 	private static String fileName = "doc.txt";
 	private static File file = new File(fileName);
 	private static JLabel lblError;
-
+	private static LineBorder lineB = new LineBorder(Color.blue, 2, true);
+	private static ImageIcon img = new ImageIcon("icons/martaMolina.png");
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					FormularioArchivos frame = new FormularioArchivos();
+					frame.setIconImage(img.getImage());
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -42,33 +52,58 @@ public class FormularioArchivos extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1373, 878);
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBorder(new LineBorder(new Color(0, 109, 119)));
 		setContentPane(contentPane);
+		getContentPane().setBackground(new Color(237, 246, 249));
 		contentPane.setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("Descripci\u00F3n del art\u00EDculo:");
+		lblNewLabel.setForeground(new Color(0, 109, 119));
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblNewLabel.setBounds(105, 93, 235, 49);
 		contentPane.add(lblNewLabel);
 
 		JLabel lblPrecio = new JLabel("Precio:");
+		lblPrecio.setForeground(new Color(0, 109, 119));
 		lblPrecio.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblPrecio.setBounds(105, 190, 235, 49);
 		contentPane.add(lblPrecio);
+		
+		JLabel lblAlta = new JLabel("Alta");
+		lblAlta.setForeground(Color.WHITE);
+		lblAlta.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblAlta.setBounds(1078, 304, 53, 49);
+		contentPane.add(lblAlta);
 
 		txtDesc = new JTextField();
+		txtDesc.addFocusListener(new FocusAdapter() {
+			public void focusGained(FocusEvent e) {
+				lblError.setText("");
+			}
+		});
+		
+		JLabel lblVisualizar = new JLabel("Visualizar productos");
+		lblVisualizar.setForeground(Color.WHITE);
+		lblVisualizar.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblVisualizar.setBounds(1005, 743, 205, 49);
+		contentPane.add(lblVisualizar);
 		txtDesc.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		txtDesc.setBounds(345, 93, 881, 49);
 		contentPane.add(txtDesc);
 		txtDesc.setColumns(10);
 
 		txtPrice = new JTextField();
+		txtPrice.addFocusListener(new FocusAdapter() {
+			public void focusGained(FocusEvent e) {
+				lblError.setText("");
+			}
+		});
 		txtPrice.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		txtPrice.setColumns(10);
 		txtPrice.setBounds(345, 190, 881, 49);
 		contentPane.add(txtPrice);
 
-		JButton btnAlta = new JButton("Alta");
+		JButton btnAlta = new RoundButton();
 		btnAlta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String description = txtDesc.getText();
@@ -99,15 +134,17 @@ public class FormularioArchivos extends JFrame {
 		textArea.setBounds(105, 390, 1130, 319);
 		contentPane.add(textArea);
 
-		JButton btnAlta_1 = new JButton("Visualizar productos");
-		btnAlta_1.addActionListener(new ActionListener() {
+		JButton btnVisualizar = new RoundButton();
+		btnVisualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				read();
 			}
 		});
-		btnAlta_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnAlta_1.setBounds(957, 743, 279, 49);
-		contentPane.add(btnAlta_1);
+		btnVisualizar.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnVisualizar.setBounds(957, 743, 279, 49);
+		contentPane.add(btnVisualizar);
+		
+		
 
 	}
 
