@@ -10,6 +10,8 @@ import botones.RoundButton;
 
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Insets;
+
 import javax.swing.JTextField;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -33,7 +35,7 @@ public class FormularioArchivos extends JFrame {
 	private static JLabel lblError;
 	private static LineBorder lineB = new LineBorder(Color.blue, 2, true);
 	private static ImageIcon img = new ImageIcon("icons/martaMolina.png");
-	
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -68,7 +70,7 @@ public class FormularioArchivos extends JFrame {
 		lblPrecio.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblPrecio.setBounds(105, 190, 235, 49);
 		contentPane.add(lblPrecio);
-		
+
 		JLabel lblAlta = new JLabel("Alta");
 		lblAlta.setForeground(Color.WHITE);
 		lblAlta.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -81,7 +83,7 @@ public class FormularioArchivos extends JFrame {
 				lblError.setText("");
 			}
 		});
-		
+
 		JLabel lblVisualizar = new JLabel("Visualizar productos");
 		lblVisualizar.setForeground(Color.WHITE);
 		lblVisualizar.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -130,8 +132,9 @@ public class FormularioArchivos extends JFrame {
 		contentPane.add(lblError);
 
 		JTextArea textArea = new JTextArea();
-		textArea.setForeground(new Color(237, 246, 249));
+		textArea.setForeground(new Color(0, 109, 119));
 		textArea.setEditable(false);
+		textArea.setMargin(new Insets(5, 15, 5, 15));
 		textArea.setFont(new Font("Monospaced", Font.PLAIN, 20));
 		textArea.setBounds(105, 390, 1130, 319);
 		contentPane.add(textArea);
@@ -139,14 +142,13 @@ public class FormularioArchivos extends JFrame {
 		JButton btnVisualizar = new RoundButton();
 		btnVisualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				textArea.setText("");
 				textArea.setText(read());
 			}
 		});
 		btnVisualizar.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnVisualizar.setBounds(957, 743, 279, 49);
 		contentPane.add(btnVisualizar);
-		
-		
 
 	}
 
@@ -156,7 +158,7 @@ public class FormularioArchivos extends JFrame {
 			}
 			FileWriter fWriter;
 			fWriter = new FileWriter("doc.txt", true);
-			fWriter.append("- "+descrip + " " + price+"€ \r\n");
+			fWriter.append("- " + descrip + " " + price + "\r\n");
 			fWriter.close();
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -170,7 +172,8 @@ public class FormularioArchivos extends JFrame {
 			if (file.exists()) {
 				Scanner sc = new Scanner(file);
 				while (sc.hasNext()) {
-					fileTxt +=num+ sc.nextLine()+"\r\n";
+					fileTxt += num + sc.nextLine() + "\r\n";
+					++num;
 				}
 				sc.close();
 			} else {
@@ -178,7 +181,8 @@ public class FormularioArchivos extends JFrame {
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		}System.out.println(fileTxt);
+		}
+		System.out.println(fileTxt);
 		return fileTxt;
 	}
 
