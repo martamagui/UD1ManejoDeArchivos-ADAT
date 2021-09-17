@@ -1,1 +1,2 @@
-PALOMITAS 0.50
+- Palomitas 0.5
+- Patatas 1.01

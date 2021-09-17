@@ -130,6 +130,8 @@ public class FormularioArchivos extends JFrame {
 		contentPane.add(lblError);
 
 		JTextArea textArea = new JTextArea();
+		textArea.setForeground(new Color(237, 246, 249));
+		textArea.setEditable(false);
 		textArea.setFont(new Font("Monospaced", Font.PLAIN, 20));
 		textArea.setBounds(105, 390, 1130, 319);
 		contentPane.add(textArea);
@@ -137,7 +139,7 @@ public class FormularioArchivos extends JFrame {
 		JButton btnVisualizar = new RoundButton();
 		btnVisualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				read();
+				textArea.setText(read());
 			}
 		});
 		btnVisualizar.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -154,7 +156,7 @@ public class FormularioArchivos extends JFrame {
 			}
 			FileWriter fWriter;
 			fWriter = new FileWriter("doc.txt", true);
-			fWriter.append(descrip + " " + price);
+			fWriter.append("- "+descrip + " " + price+"€ \r\n");
 			fWriter.close();
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -164,10 +166,11 @@ public class FormularioArchivos extends JFrame {
 	public static String read() {
 		String fileTxt = "";
 		try {
+			int num = 1;
 			if (file.exists()) {
 				Scanner sc = new Scanner(file);
 				while (sc.hasNext()) {
-					fileTxt += sc.nextLine();
+					fileTxt +=num+ sc.nextLine()+"\r\n";
 				}
 				sc.close();
 			} else {
@@ -175,7 +178,7 @@ public class FormularioArchivos extends JFrame {
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		}
+		}System.out.println(fileTxt);
 		return fileTxt;
 	}
 
