@@ -75,10 +75,11 @@ public class FormularioArchivos extends JFrame {
 				String price = txtPrice.getText();
 				if (checkFields(description, price).length() == 0) {
 					write(description, price);
+					lblError.setForeground(Color.GREEN);
+					lblError.setText("Producto registrado.");
 				} else {
+					lblError.setForeground(Color.RED);
 					lblError.setText(checkFields(description, price));
-					lblError.setBounds(345, 304, 590, 49);
-					
 				}
 
 			}
@@ -89,6 +90,7 @@ public class FormularioArchivos extends JFrame {
 
 		lblError = new JLabel("");
 		lblError.setForeground(Color.RED);
+		lblError.setBounds(345, 304, 590, 49);
 		lblError.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		contentPane.add(lblError);
 
