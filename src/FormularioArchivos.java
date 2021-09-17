@@ -22,6 +22,9 @@ public class FormularioArchivos extends JFrame {
 	private JTextField txtPrice;
 	private static String fileName = "doc.txt";
 	private static File file = new File(fileName);
+	private static JLabel lblError;
+
+	
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -49,7 +52,7 @@ public class FormularioArchivos extends JFrame {
 
 		JLabel lblNewLabel = new JLabel("Descripci\u00F3n del art\u00EDculo:");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabel.setBounds(93, 93, 235, 49);
+		lblNewLabel.setBounds(105, 93, 235, 49);
 		contentPane.add(lblNewLabel);
 
 		JLabel lblPrecio = new JLabel("Precio:");
@@ -58,13 +61,13 @@ public class FormularioArchivos extends JFrame {
 		contentPane.add(lblPrecio);
 
 		txtDesc = new JTextField();
-		txtDesc.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		txtDesc.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		txtDesc.setBounds(345, 93, 881, 49);
 		contentPane.add(txtDesc);
 		txtDesc.setColumns(10);
 
 		txtPrice = new JTextField();
-		txtPrice.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		txtPrice.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		txtPrice.setColumns(10);
 		txtPrice.setBounds(345, 190, 881, 49);
 		contentPane.add(txtPrice);
@@ -74,21 +77,28 @@ public class FormularioArchivos extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String description = txtDesc.getText();
 				String price = txtPrice.getText();
-				write(description, price);
+				if (checkFields(description, price).length() == 0) {
+					write(description, price);
+				} else {
+					lblError.setText(checkFields(description, price));
+					lblError.setBounds(345, 304, 590, 49);
+					
+				}
+
 			}
 		});
 		btnAlta.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnAlta.setBounds(345, 304, 208, 49);
+		btnAlta.setBounds(957, 304, 279, 49);
 		contentPane.add(btnAlta);
 
-		JLabel lblNewLabel_1 = new JLabel("Resultado");
-		lblNewLabel_1.setForeground(Color.RED);
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabel_1.setBounds(661, 304, 241, 49);
-		contentPane.add(lblNewLabel_1);
+		lblError = new JLabel("");
+		lblError.setForeground(Color.RED);
+		lblError.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		contentPane.add(lblError);
 
 		JTextArea textArea = new JTextArea();
-		textArea.setBounds(105, 444, 1130, 374);
+		textArea.setFont(new Font("Monospaced", Font.PLAIN, 20));
+		textArea.setBounds(105, 390, 1130, 319);
 		contentPane.add(textArea);
 
 		JButton btnAlta_1 = new JButton("Visualizar productos");
@@ -98,7 +108,7 @@ public class FormularioArchivos extends JFrame {
 			}
 		});
 		btnAlta_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnAlta_1.setBounds(345, 384, 279, 49);
+		btnAlta_1.setBounds(957, 743, 279, 49);
 		contentPane.add(btnAlta_1);
 
 	}
@@ -108,7 +118,6 @@ public class FormularioArchivos extends JFrame {
 			if (file.createNewFile() == true) {
 			}
 			FileWriter fWriter;
-			System.out.println(descrip);
 			fWriter = new FileWriter("doc.txt", true);
 			fWriter.append(descrip + " " + price);
 			fWriter.close();
@@ -120,18 +129,29 @@ public class FormularioArchivos extends JFrame {
 	public static String read() {
 		String fileTxt = "";
 		try {
-			if(file.exists()) {
+			if (file.exists()) {
 				Scanner sc = new Scanner(file);
-				while(sc.hasNext()) {
-					fileTxt+= sc.nextLine();
-				}	
+				while (sc.hasNext()) {
+					fileTxt += sc.nextLine();
+				}
 				sc.close();
-			}else {
-				fileTxt="Todavía no hay registros :)";
-			}			
+			} else {
+				fileTxt = "Todavía no hay registros :)";
+			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 		return fileTxt;
+	}
+
+	public static String checkFields(String descrip, String pric) {
+		String description = descrip.trim();
+		String price = pric.trim();
+		if (description.length() == 0 || price.length() == 0) {
+			return "No puede dejar los campos en blanco";
+		}
+
+		return "";
+
 	}
 }
