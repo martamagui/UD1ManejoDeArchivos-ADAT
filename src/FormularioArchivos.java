@@ -25,7 +25,6 @@ public class FormularioArchivos extends JFrame {
 	private static JLabel lblError;
 
 	
-
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -39,9 +38,6 @@ public class FormularioArchivos extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public FormularioArchivos() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1373, 878);
@@ -150,7 +146,11 @@ public class FormularioArchivos extends JFrame {
 		if (description.length() == 0 || price.length() == 0) {
 			return "No puede dejar los campos en blanco";
 		}
-
+		try {
+			Double.parseDouble(price);
+		} catch (Exception e) {
+			return "Por favor, introduce sólo números en Precio";
+		}
 		return "";
 
 	}
