@@ -1,19 +1,32 @@
 
+/**
+ * @author Marta Molina Aguilera
+ * <p>Esta aplicación tiene cómo objetivo permitir al usuario ser capaz de introducir 
+ * productos en un archivo .txt y visualizarlo en la misma pantalla si así lo desea.</p>
+ */
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
+import javax.swing.plaf.ScrollBarUI;
+import javax.swing.plaf.basic.BasicScrollBarUI;
+
 import botones.RoundButton;
 
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.Rectangle;
+
 import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
 import java.io.*;
@@ -36,11 +49,21 @@ public class FormularioArchivos extends JFrame {
 	private static JLabel lblError;
 	private static ImageIcon img = new ImageIcon("icons/martaMolina.png");
 
+	/**
+	 * Main que crea, lanza el frame/ventana, lo hace visible y cambia el icono del
+	 * mismo mostrado en la esquina superior y en la barra de tareas.
+	 * 
+	 * @param args
+	 * @throws Exception e: Se genera esta excepción si hubiera algún error al
+	 *                   lanzar el frame.
+	 */
 	public static void main(String[] args) {
+		// Lanza la ventana y la hace visible
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					FormularioArchivos frame = new FormularioArchivos();
+					// Cambia el icono de la ventana
 					frame.setIconImage(img.getImage());
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -50,7 +73,13 @@ public class FormularioArchivos extends JFrame {
 		});
 	}
 
+	/**
+	 * Aplica los atributos estéticos a la ventana y los eventsListeners a cada
+	 * elemento que los precise.
+	 * 
+	 */
 	public FormularioArchivos() {
+		// Ventana
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1373, 878);
 		contentPane = new JPanel();
@@ -59,42 +88,47 @@ public class FormularioArchivos extends JFrame {
 		getContentPane().setBackground(new Color(237, 246, 249));
 		contentPane.setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("Descripci\u00F3n del art\u00EDculo:");
+		// Label - Descripción
+		JLabel lblNewLabel = new JLabel("Descripción del artículo:");
 		lblNewLabel.setForeground(new Color(0, 109, 119));
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblNewLabel.setBounds(105, 93, 235, 49);
 		contentPane.add(lblNewLabel);
-		
 
+		// Label - Precio
 		JLabel lblPrecio = new JLabel("Precio:");
 		lblPrecio.setForeground(new Color(0, 109, 119));
 		lblPrecio.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblPrecio.setBounds(105, 190, 235, 49);
 		contentPane.add(lblPrecio);
 
+		// Label sobre botón - Alta
 		JLabel lblAlta = new JLabel("Alta");
 		lblAlta.setForeground(Color.WHITE);
 		lblAlta.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblAlta.setBounds(1078, 304, 53, 49);
 		contentPane.add(lblAlta);
 
+		// Label sobre botón
+		JLabel lblVisualizar = new JLabel("Visualizar productos");
+		lblVisualizar.setForeground(Color.WHITE);
+		lblVisualizar.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblVisualizar.setBounds(1005, 743, 205, 49);
+		contentPane.add(lblVisualizar);
+
+		// Campo de texto - Descripción del artículo
 		txtDesc = new JTextField();
 		txtDesc.addFocusListener(new FocusAdapter() {
 			public void focusGained(FocusEvent e) {
 				lblError.setText("");
 			}
 		});
-
-		JLabel lblVisualizar = new JLabel("Visualizar productos");
-		lblVisualizar.setForeground(Color.WHITE);
-		lblVisualizar.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblVisualizar.setBounds(1005, 743, 205, 49);
-		contentPane.add(lblVisualizar);
 		txtDesc.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		txtDesc.setColumns(10);
 		txtDesc.setBounds(345, 93, 881, 49);
 		contentPane.add(txtDesc);
-		txtDesc.setColumns(10);
 
+		// Campo de texto - Precio
 		txtPrice = new JTextField();
 		txtPrice.addFocusListener(new FocusAdapter() {
 			public void focusGained(FocusEvent e) {
@@ -106,6 +140,43 @@ public class FormularioArchivos extends JFrame {
 		txtPrice.setBounds(345, 190, 881, 49);
 		contentPane.add(txtPrice);
 
+		// Label - Error/ Resultado, no se muestra hasta que se ejecute alguna acción
+		lblError = new JLabel("");
+		lblError.setForeground(Color.RED);
+		lblError.setBounds(345, 304, 590, 49);
+		lblError.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		contentPane.add(lblError);
+
+		// Área de texto
+		JTextArea textArea = new JTextArea();
+		textArea.setLineWrap(true);
+		textArea.setForeground(new Color(0, 109, 119));
+		textArea.setEditable(false);
+		textArea.setMargin(new Insets(5, 15, 5, 15));
+		textArea.setFont(new Font("Monospaced", Font.PLAIN, 20));
+		textArea.setBounds(105, 390, 1130, 319);
+		contentPane.add(textArea);
+
+		// Area de scroll para el área de texto
+		JScrollPane scrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
+			protected void configureScrollBarColors() {
+				this.thumbColor = new Color(0, 109, 119);
+				this.scrollBarWidth = 15;
+			}
+
+			protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
+				Graphics2D g2 = (Graphics2D) g;
+				g.setColor(new Color(237, 246, 249));
+				g2.fill(trackBounds);
+				g2.draw(trackBounds);
+			}
+		});
+		scrollPane.setBounds(111, 362, 1125, 370);
+		contentPane.add(scrollPane);
+
+		// Botón - Alta
 		JButton btnAlta = new RoundButton();
 		btnAlta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -128,27 +199,7 @@ public class FormularioArchivos extends JFrame {
 		btnAlta.setBounds(957, 304, 279, 49);
 		contentPane.add(btnAlta);
 
-		lblError = new JLabel("");
-		lblError.setForeground(Color.RED);
-		lblError.setBounds(345, 304, 590, 49);
-		lblError.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		contentPane.add(lblError);
-
-		JTextArea textArea = new JTextArea();
-		textArea.setLineWrap(true);
-		textArea.setForeground(new Color(0, 109, 119));
-		textArea.setEditable(false);
-		textArea.setMargin(new Insets(5, 15, 5, 15));
-		textArea.setFont(new Font("Monospaced", Font.PLAIN, 20));
-		textArea.setBounds(105, 390, 1130, 319);
-		contentPane.add(textArea);
-
-		JScrollPane scrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setBounds(111, 362, 1125, 370);
-		contentPane.add(scrollPane);
-	
-        
+		// Botón - Visualizar
 		JButton btnVisualizar = new RoundButton();
 		btnVisualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -159,11 +210,17 @@ public class FormularioArchivos extends JFrame {
 		btnVisualizar.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnVisualizar.setBounds(957, 743, 279, 49);
 		contentPane.add(btnVisualizar);
-		
-		
 
 	}
 
+	/**
+	 * Comprueba que el archivo en el que se guardarán los datos existe. Escribe el
+	 * par de datos recibido en este seguido de un salto de línea.
+	 * 
+	 * @param descrip: Recibe el texto introducido en el TextField de "txtDesc".
+	 * @param price:   Recibe el texto introducido en el TextField de "txtPrice".
+	 * @throws IOException e1: Es lanzado si el FileWriter genera alguna ecepción.
+	 */
 	public static void write(String descrip, String price) {
 		try {
 			if (file.createNewFile() == true) {
@@ -177,6 +234,17 @@ public class FormularioArchivos extends JFrame {
 		}
 	}
 
+	/**
+	 * Este método comprueba que exista el archivo "file" declarado en la parte
+	 * superior del código, si es así lee el contenido del mismo mediante el uso de
+	 * un Scanner y guarda el contenido en la variable "fileTxt:". Si no existiera,
+	 * devolvería por el área de texto un mensaje de que no existen registros.
+	 * 
+	 * @return fileTxt: Variable de tipo String en la que es guardado el texto leído
+	 *         del archivo pertinente.
+	 * @throws FileNotFoundException e: es lanzado en caso de que este archivo no
+	 *                               exista.
+	 */
 	public static String read() {
 		String fileTxt = "";
 		try {
@@ -189,27 +257,41 @@ public class FormularioArchivos extends JFrame {
 				}
 				sc.close();
 			} else {
-				fileTxt = "Todav�a no hay registros :)";
+				fileTxt = "Todavía no hay registros :)";
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		System.out.println(fileTxt);
 		return fileTxt;
 	}
 
+	/**
+	 * Comprueba que haya contenido en los campos de texto: "txtDesc" y "txtPrice";
+	 * al tiempo que comprueba que el dato introducido en el precio sea un número.
+	 * 
+	 * @param descrip: Recibe el texto introducido en el TextField de "txtDesc".
+	 * @param price:   Recibe el texto introducido en el TextField de "txtPrice".
+	 * @return mensaje: En caso de que no pase alguno de los condicionales; retorna
+	 *         un mensaje de error.
+	 * @throws Exception e: en caso de que la información introducida en "txtPrice"
+	 *                   no fuera numérica, lanzaría una excepción retornando un
+	 *                   mensaje de error.
+	 */
 	public static String checkFields(String descrip, String pric) {
 		String description = descrip.trim();
 		String price = pric.trim();
+		String mensaje = "";
 		if (description.length() == 0 || price.length() == 0) {
-			return "No puede dejar los campos en blanco";
+			mensaje = "No puede dejar los campos en blanco";
+			return mensaje;
 		}
 		try {
 			Double.parseDouble(price);
 		} catch (Exception e) {
-			return "Por favor, introduce s�lo n�meros en Precio";
+			mensaje = "Por favor, introduce sólo números en Precio";
+			return mensaje;
 		}
-		return "";
+		return mensaje;
 
 	}
 }
