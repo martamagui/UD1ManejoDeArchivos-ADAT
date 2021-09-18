@@ -1,19 +1,17 @@
-import java.awt.BorderLayout;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
-
 import botones.RoundButton;
 
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.Insets;
-
 import javax.swing.JTextField;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
@@ -24,6 +22,9 @@ import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.TextArea;
+import java.awt.Component;
+import javax.swing.Box;
 
 public class FormularioArchivos extends JFrame {
 
@@ -33,7 +34,6 @@ public class FormularioArchivos extends JFrame {
 	private static String fileName = "doc.txt";
 	private static File file = new File(fileName);
 	private static JLabel lblError;
-	private static LineBorder lineB = new LineBorder(Color.blue, 2, true);
 	private static ImageIcon img = new ImageIcon("icons/martaMolina.png");
 
 	public static void main(String[] args) {
@@ -64,6 +64,7 @@ public class FormularioArchivos extends JFrame {
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblNewLabel.setBounds(105, 93, 235, 49);
 		contentPane.add(lblNewLabel);
+		
 
 		JLabel lblPrecio = new JLabel("Precio:");
 		lblPrecio.setForeground(new Color(0, 109, 119));
@@ -114,6 +115,8 @@ public class FormularioArchivos extends JFrame {
 					write(description, price);
 					lblError.setForeground(Color.GREEN);
 					lblError.setText("Producto registrado.");
+					txtDesc.setText("");
+					txtPrice.setText("");
 				} else {
 					lblError.setForeground(Color.RED);
 					lblError.setText(checkFields(description, price));
@@ -132,6 +135,7 @@ public class FormularioArchivos extends JFrame {
 		contentPane.add(lblError);
 
 		JTextArea textArea = new JTextArea();
+		textArea.setLineWrap(true);
 		textArea.setForeground(new Color(0, 109, 119));
 		textArea.setEditable(false);
 		textArea.setMargin(new Insets(5, 15, 5, 15));
@@ -139,6 +143,12 @@ public class FormularioArchivos extends JFrame {
 		textArea.setBounds(105, 390, 1130, 319);
 		contentPane.add(textArea);
 
+		JScrollPane scrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setBounds(111, 362, 1125, 370);
+		contentPane.add(scrollPane);
+	
+        
 		JButton btnVisualizar = new RoundButton();
 		btnVisualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -149,6 +159,8 @@ public class FormularioArchivos extends JFrame {
 		btnVisualizar.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnVisualizar.setBounds(957, 743, 279, 49);
 		contentPane.add(btnVisualizar);
+		
+		
 
 	}
 
