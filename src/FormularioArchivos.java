@@ -13,7 +13,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.plaf.ScrollBarUI;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
-import botones.RoundButton;
+import extensiones.NewScrollBar;
+import extensiones.RoundButton;
 
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -160,19 +161,7 @@ public class FormularioArchivos extends JFrame {
 		// Area de scroll para el área de texto
 		JScrollPane scrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
-			protected void configureScrollBarColors() {
-				this.thumbColor = new Color(0, 109, 119);
-				this.scrollBarWidth = 15;
-			}
-
-			protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
-				Graphics2D g2 = (Graphics2D) g;
-				g.setColor(new Color(237, 246, 249));
-				g2.fill(trackBounds);
-				g2.draw(trackBounds);
-			}
-		});
+		scrollPane.getVerticalScrollBar().setUI(new NewScrollBar ());
 		scrollPane.setBounds(111, 362, 1125, 370);
 		contentPane.add(scrollPane);
 
@@ -275,7 +264,7 @@ public class FormularioArchivos extends JFrame {
 	 *         un mensaje de error.
 	 * @throws Exception e: en caso de que la información introducida en "txtPrice"
 	 *                   no fuera numérica, lanzaría una excepción retornando un
-	 *                   mensaje de error.
+	 *                   mensaje de error para {@link #lblError} .
 	 */
 	public static String checkFields(String descrip, String pric) {
 		String description = descrip.trim();
