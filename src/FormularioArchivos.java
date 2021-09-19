@@ -9,7 +9,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
 import javax.swing.plaf.ScrollBarUI;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
@@ -21,6 +23,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Rectangle;
 
@@ -38,6 +41,8 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.TextArea;
 import java.awt.Component;
+
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 
 public class FormularioArchivos extends JFrame {
@@ -49,6 +54,8 @@ public class FormularioArchivos extends JFrame {
 	private static File file = new File(fileName);
 	private static JLabel lblError;
 	private static ImageIcon img = new ImageIcon("icons/martaMolina.png");
+	private static ImageIcon rectangle1 = new ImageIcon("icons/rectangle1.png");
+	private static ImageIcon rectangle2 = new ImageIcon("icons/rectangle2.png");
 
 	/**
 	 * Main que crea, lanza el frame/ventana, lo hace visible y cambia el icono del
@@ -82,42 +89,43 @@ public class FormularioArchivos extends JFrame {
 	public FormularioArchivos() {
 		// Ventana
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1373, 878);
+		setBounds(100, 100, 933, 939);
 		contentPane = new JPanel();
 		contentPane.setBorder(new LineBorder(new Color(0, 109, 119)));
 		setContentPane(contentPane);
-		getContentPane().setBackground(new Color(237, 246, 249));
+		getContentPane().setBackground(new Color(131, 197, 190));
 		contentPane.setLayout(null);
 
 		// Label - Descripción
-		JLabel lblNewLabel = new JLabel("Descripción del artículo:");
+		JLabel lblNewLabel = new JLabel("Descripción del artículo");
 		lblNewLabel.setForeground(new Color(0, 109, 119));
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabel.setBounds(105, 93, 235, 49);
+		lblNewLabel.setBounds(250, 30, 235, 49);
 		contentPane.add(lblNewLabel);
 
 		// Label - Precio
-		JLabel lblPrecio = new JLabel("Precio:");
+		JLabel lblPrecio = new JLabel("Precio");
 		lblPrecio.setForeground(new Color(0, 109, 119));
 		lblPrecio.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblPrecio.setBounds(105, 190, 235, 49);
+		lblPrecio.setBounds(250, 135, 235, 49);
 		contentPane.add(lblPrecio);
 
 		// Label sobre botón - Alta
 		JLabel lblAlta = new JLabel("Alta");
 		lblAlta.setForeground(Color.WHITE);
 		lblAlta.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblAlta.setBounds(1078, 304, 53, 49);
+		lblAlta.setBounds(440, 280, 53, 49);
 		contentPane.add(lblAlta);
 
 		// Label sobre botón
 		JLabel lblVisualizar = new JLabel("Visualizar productos");
 		lblVisualizar.setForeground(Color.WHITE);
 		lblVisualizar.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblVisualizar.setBounds(1005, 743, 205, 49);
+		lblVisualizar.setBounds(370, 820, 205, 49);
 		contentPane.add(lblVisualizar);
 
 		// Campo de texto - Descripción del artículo
+		Border bordertxtFields = BorderFactory.createLineBorder(new Color(255, 255, 255), 2);
 		txtDesc = new JTextField();
 		txtDesc.addFocusListener(new FocusAdapter() {
 			public void focusGained(FocusEvent e) {
@@ -125,12 +133,15 @@ public class FormularioArchivos extends JFrame {
 			}
 		});
 		txtDesc.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		txtDesc.setBorder(bordertxtFields);
+		txtDesc.setMargin(new Insets(2, 22, 2, 22));
 		txtDesc.setColumns(10);
-		txtDesc.setBounds(345, 93, 881, 49);
+		txtDesc.setBounds(248, 80, 441, 49);
 		contentPane.add(txtDesc);
 
 		// Campo de texto - Precio
 		txtPrice = new JTextField();
+		txtPrice.setBorder(bordertxtFields);
 		txtPrice.addFocusListener(new FocusAdapter() {
 			public void focusGained(FocusEvent e) {
 				lblError.setText("");
@@ -138,13 +149,13 @@ public class FormularioArchivos extends JFrame {
 		});
 		txtPrice.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		txtPrice.setColumns(10);
-		txtPrice.setBounds(345, 190, 881, 49);
+		txtPrice.setBounds(248, 185, 441, 49);
 		contentPane.add(txtPrice);
 
 		// Label - Error/ Resultado, no se muestra hasta que se ejecute alguna acción
 		lblError = new JLabel("");
 		lblError.setForeground(Color.RED);
-		lblError.setBounds(345, 304, 590, 49);
+		lblError.setBounds(252, 235, 590, 40);
 		lblError.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		contentPane.add(lblError);
 
@@ -155,14 +166,15 @@ public class FormularioArchivos extends JFrame {
 		textArea.setEditable(false);
 		textArea.setMargin(new Insets(5, 15, 5, 15));
 		textArea.setFont(new Font("Monospaced", Font.PLAIN, 20));
-		textArea.setBounds(105, 390, 1130, 319);
+		textArea.setBounds(105, 420, 700, 370);
 		contentPane.add(textArea);
 
 		// Area de scroll para el área de texto
 		JScrollPane scrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.getVerticalScrollBar().setUI(new NewScrollBar ());
-		scrollPane.setBounds(111, 362, 1125, 370);
+		scrollPane.setBorder(bordertxtFields);
+		scrollPane.setBounds(105, 420, 700, 370);
 		contentPane.add(scrollPane);
 
 		// Botón - Alta
@@ -173,7 +185,7 @@ public class FormularioArchivos extends JFrame {
 				String price = txtPrice.getText();
 				if (checkFields(description, price).length() == 0) {
 					write(description, price);
-					lblError.setForeground(Color.GREEN);
+					lblError.setForeground(new Color(131, 197, 190));
 					lblError.setText("Producto registrado.");
 					txtDesc.setText("");
 					txtPrice.setText("");
@@ -185,7 +197,7 @@ public class FormularioArchivos extends JFrame {
 			}
 		});
 		btnAlta.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnAlta.setBounds(957, 304, 279, 49);
+		btnAlta.setBounds(320, 280, 279, 49);
 		contentPane.add(btnAlta);
 
 		// Botón - Visualizar
@@ -197,8 +209,21 @@ public class FormularioArchivos extends JFrame {
 			}
 		});
 		btnVisualizar.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnVisualizar.setBounds(957, 743, 279, 49);
+		btnVisualizar.setBounds(320, 820, 279, 49);
 		contentPane.add(btnVisualizar);
+		
+		JLabel lblRectangle1 = new JLabel("");
+		Image newRecImg1 = rectangle1.getImage().getScaledInstance(800, 339,  java.awt.Image.SCALE_SMOOTH); 
+		lblRectangle1.setIcon(new ImageIcon(newRecImg1));
+		lblRectangle1.setBounds(60, 25, 800, 339);
+		contentPane.add(lblRectangle1);
+		
+		JLabel lblRectangle2 = new JLabel("");
+		lblRectangle2.setBounds(60, 380, 800, 520);
+		Image newRecImg2 =  rectangle2.getImage().getScaledInstance(800, 520,  java.awt.Image.SCALE_SMOOTH); 
+		lblRectangle2.setIcon(new ImageIcon(newRecImg2));
+		contentPane.add(lblRectangle2);
+		
 
 	}
 
@@ -216,7 +241,7 @@ public class FormularioArchivos extends JFrame {
 			}
 			FileWriter fWriter;
 			fWriter = new FileWriter("doc.txt", true);
-			fWriter.append("- " + descrip + " " + price + "\r\n");
+			fWriter.append("- " + descrip + " " + price+ "\r\n");
 			fWriter.close();
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -241,7 +266,7 @@ public class FormularioArchivos extends JFrame {
 			if (file.exists()) {
 				Scanner sc = new Scanner(file);
 				while (sc.hasNext()) {
-					fileTxt += num + sc.nextLine() + "\r\n";
+					fileTxt += num + sc.nextLine()+" € \r\n" ;
 					++num;
 				}
 				sc.close();
