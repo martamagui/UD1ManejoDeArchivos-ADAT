@@ -70,9 +70,10 @@ public class FormularioArchivos extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FormularioArchivos frame = new FormularioArchivos();
+					JFrame frame = new FormularioArchivos();
 					// Cambia el icono de la ventana
 					frame.setIconImage(img.getImage());
+					frame.setTitle("Marta MA - Formulario archivos");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -82,8 +83,10 @@ public class FormularioArchivos extends JFrame {
 	}
 
 	/**
+	 * Constructor de FormularioArchivos
 	 * Aplica los atributos estéticos a la ventana y los eventsListeners a cada
 	 * elemento que los precise.
+	 * @param title: Título de la ventana
 	 * 
 	 */
 	public FormularioArchivos() {
