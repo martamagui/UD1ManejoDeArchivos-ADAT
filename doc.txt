@@ -1,24 +1,13 @@
-- Palomitas 0.5
-- Fresas 2.59
-- Anacardos 3.56
-- Manzanas 0.54
-- Palomitas 0.5
-- Fresas 2.59
-- Anacardos 3.56
-- Manzanas 0.54
-- Palomitas 0.5
-- Fresas 2.59
-- Anacardos 3.56
-- Manzanas 0.54
-- Palomitas 0.5
-- Fresas 2.59
-- Anacardos 3.56
-- Manzanas 0.54
-- Palomitas 0.5
-- Fresas 2.59
-- Anacardos 3.56
-- Manzanas 0.54
-- Palomitas 0.5
-- Fresas 2.59
-- Anacardos 3.56
-- Manzanas 0.54
+- Kotlin In-depth [Vol-I] -> 28.07
+- Dune -> 11.35
+- El mesías de Dune -> 10.40
+- El Cosmos Largo (La Tierra Larga 5) -> 16.05
+- Clean JavaScript -> 19.97
+- Node.js Design Patterns -> 40.25
+- El ascenso de Próxima -> 3.50
+- The Midnight Library -> 7.49
+- Learning React: Modern Patterns -> 32.72
+- Dioses Menores (Mundodisco 13) -> 9.45
+- La Fuente Oscura -> 14.99
+- Proyecto Hail Mary -> 9.49
+- El sueño de Próxima -> 3.99

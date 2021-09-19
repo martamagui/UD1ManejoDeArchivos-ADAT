@@ -23,8 +23,8 @@ public class NewScrollBar extends BasicScrollBarUI {
 	 * Configura el color de la barra de scroll y el fondo.
 	 */
 	protected void configureScrollBarColors() {
-		this.thumbColor = new Color(223, 135, 104);
-		this.trackColor = new Color(255, 209, 194);
+		this.trackColor = new Color(214, 231, 255);
+		this.thumbColor = new Color(0, 109, 119);
 	}
 
 	/**
