@@ -42,6 +42,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.TextArea;
 import java.awt.Component;
+import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -91,19 +92,27 @@ public class FormularioArchivos extends JFrame {
 	 * 
 	 */
 	public FormularioArchivos() {
+		
 
 		// Ventana
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 980, 939);
+		setBounds(100, 100, 50, 59);
 		contentPane = new JPanel();
 		contentPane.setBorder(new LineBorder(new Color(0, 109, 119)));
 		setContentPane(contentPane);
 		getContentPane().setBackground(new Color(131, 197, 190));
 		contentPane.setLayout(null);
+		
+		//Dimensiones ventana
+		Dimension screen = this.getSize();
+		int screenW = screen.width;
+		int screenH = screen.height;
+		System.out.println(screen );
 
 		// Imagen - Gafas
 		JLabel lblGafas = new JLabel("");
-		Image gafas = new ImageIcon("imgs/gafas.png").getImage().getScaledInstance(343, 249, java.awt.Image.SCALE_SMOOTH);
+		Image gafas = new ImageIcon("imgs/gafas.png").getImage().getScaledInstance(343, 249,
+				java.awt.Image.SCALE_SMOOTH);
 		lblGafas.setIcon(new ImageIcon(gafas));
 		lblGafas.setBounds(621, 198, 343, 249);
 		contentPane.add(lblGafas);
