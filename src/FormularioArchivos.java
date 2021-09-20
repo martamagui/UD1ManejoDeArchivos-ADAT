@@ -11,30 +11,32 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
-import extensiones.NewScrollBar;
-import extensiones.RoundButton;
-import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.Image;
-import java.awt.Insets;
 import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
+import javax.swing.BorderFactory;
+
+import extensiones.NewScrollBar;
+import extensiones.RoundButton;
+
+import javax.swing.JLabel;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionListener;
-import java.io.*;
-import java.util.Scanner;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.Dimension;
-
-import javax.swing.BorderFactory;
 import java.awt.event.WindowStateListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+
+import java.io.*;
+import java.util.Scanner;
 
 public class FormularioArchivos extends JFrame {
 
