@@ -10,28 +10,16 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.border.MatteBorder;
-import javax.swing.plaf.ScrollBarUI;
-import javax.swing.plaf.basic.BasicScrollBarUI;
-
 import extensiones.NewScrollBar;
 import extensiones.RoundButton;
-
 import javax.swing.JLabel;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
-import java.awt.Rectangle;
-
 import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
 import java.io.*;
@@ -40,24 +28,30 @@ import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.awt.TextArea;
-import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
+import java.awt.event.WindowStateListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class FormularioArchivos extends JFrame {
 
-	private JPanel contentPane;
-	private JTextField txtDesc;
-	private JTextField txtPrice;
+	private static JPanel contentPane;
+	private static JTextField txtDesc, txtPrice;
 	private static String fileName = "doc.txt";
 	private static File file = new File(fileName);
-	private static JLabel lblError;
 	private static ImageIcon img = new ImageIcon("imgs/martaMolina.png");
 	private static ImageIcon rectangle1 = new ImageIcon("imgs/rectangle1.png");
 	private static ImageIcon rectangle2 = new ImageIcon("imgs/rectangle2.png");
+	private static JLabel lblError, lblDesc, lblPrecio, lblAlta, lblGafas, lblClip1, lblClip2, lblClip3, lblClip4,
+			lblVisualizar;
+	private static JTextArea textArea;
+	private static JScrollPane scrollPane;
+	private static JButton btnAlta, btnVisualizar;
+	private static JLabel lblRectangle1, lblRectangle2;
+	private static JFrame frame;
 
 	/**
 	 * Main que crea, lanza el frame/ventana, lo hace visible y cambia el icono del
@@ -72,7 +66,7 @@ public class FormularioArchivos extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					JFrame frame = new FormularioArchivos();
+					frame = new FormularioArchivos();
 					// Cambia el icono de la ventana
 					frame.setTitle("Marta MA - Formulario archivos");
 					frame.setIconImage(img.getImage());
@@ -92,25 +86,54 @@ public class FormularioArchivos extends JFrame {
 	 * 
 	 */
 	public FormularioArchivos() {
-		
+		addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				for (int i = 0; i < 2; ++i) {
+					if (i == 0) {
+						relocateElements();
+					} else {
+						if (textArea.getText().length() > 0) {
+							String text = textArea.getText();
+							textArea.setText(text);
+						} else {
+							textArea.setText(" ");
+						}
+					}
+				}
+			}
+		});
 
 		// Ventana
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 50, 59);
+		setBounds(70, 70, 980, 939);
 		contentPane = new JPanel();
 		contentPane.setBorder(new LineBorder(new Color(0, 109, 119)));
 		setContentPane(contentPane);
 		getContentPane().setBackground(new Color(131, 197, 190));
 		contentPane.setLayout(null);
-		
-		//Dimensiones ventana
-		Dimension screen = this.getSize();
-		int screenW = screen.width;
-		int screenH = screen.height;
-		System.out.println(screen );
+
+		// Mover elemento cuando se redimensione la ventana, traer el textArea al
+		// frente.
+		addWindowStateListener(new WindowStateListener() {
+			public void windowStateChanged(WindowEvent e) {
+				for (int i = 0; i < 2; ++i) {
+					if (i == 0) {
+						relocateElements();
+					} else {
+						if (textArea.getText().length() > 0) {
+							String text = textArea.getText();
+							textArea.setText(text);
+						} else {
+							textArea.setText(" ");
+						}
+					}
+				}
+			}
+		});
 
 		// Imagen - Gafas
-		JLabel lblGafas = new JLabel("");
+		lblGafas = new JLabel("");
 		Image gafas = new ImageIcon("imgs/gafas.png").getImage().getScaledInstance(343, 249,
 				java.awt.Image.SCALE_SMOOTH);
 		lblGafas.setIcon(new ImageIcon(gafas));
@@ -118,7 +141,7 @@ public class FormularioArchivos extends JFrame {
 		contentPane.add(lblGafas);
 
 		// Imagen - Clip1
-		JLabel lblClip1 = new JLabel("");
+		lblClip1 = new JLabel("");
 		Image newclip = new ImageIcon("imgs/clip.png").getImage().getScaledInstance(25, 25,
 				java.awt.Image.SCALE_SMOOTH);
 		lblClip1.setIcon(new ImageIcon(newclip));
@@ -126,46 +149,46 @@ public class FormularioArchivos extends JFrame {
 		contentPane.add(lblClip1);
 
 		// Imagen - Clip2
-		JLabel lblClip2 = new JLabel("");
+		lblClip2 = new JLabel("");
 		lblClip2.setIcon(new ImageIcon(newclip));
 		lblClip2.setBounds(820, 385, 25, 25);
 		contentPane.add(lblClip2);
 
 		// Imagen - Clip3
-		JLabel lblClip3 = new JLabel("");
+		lblClip3 = new JLabel("");
 		lblClip3.setIcon(new ImageIcon(newclip));
 		lblClip3.setBounds(820, 30, 25, 25);
 		contentPane.add(lblClip3);
 
 		// Imagen - Clip4
-		JLabel lblClip4 = new JLabel("");
+		lblClip4 = new JLabel("");
 		lblClip4.setIcon(new ImageIcon(newclip));
 		lblClip4.setBounds(75, 30, 25, 25);
 		contentPane.add(lblClip4);
 
 		// Label - Descripción
-		JLabel lblNewLabel = new JLabel("Descripción del artículo");
-		lblNewLabel.setForeground(new Color(0, 109, 119));
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabel.setBounds(250, 30, 235, 49);
-		contentPane.add(lblNewLabel);
+		lblDesc = new JLabel("Descripción del artículo");
+		lblDesc.setForeground(new Color(0, 109, 119));
+		lblDesc.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblDesc.setBounds(250, 30, 235, 49);
+		contentPane.add(lblDesc);
 
 		// Label - Precio
-		JLabel lblPrecio = new JLabel("Precio");
+		lblPrecio = new JLabel("Precio");
 		lblPrecio.setForeground(new Color(0, 109, 119));
 		lblPrecio.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblPrecio.setBounds(250, 135, 235, 49);
 		contentPane.add(lblPrecio);
 
 		// Label sobre botón - Alta
-		JLabel lblAlta = new JLabel("Alta");
+		lblAlta = new JLabel("Alta");
 		lblAlta.setForeground(Color.WHITE);
 		lblAlta.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblAlta.setBounds(440, 280, 53, 49);
 		contentPane.add(lblAlta);
 
 		// Label sobre botón
-		JLabel lblVisualizar = new JLabel("Visualizar productos");
+		lblVisualizar = new JLabel("Visualizar productos");
 		lblVisualizar.setForeground(Color.WHITE);
 		lblVisualizar.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblVisualizar.setBounds(370, 820, 205, 49);
@@ -213,9 +236,8 @@ public class FormularioArchivos extends JFrame {
 		contentPane.add(lblError);
 
 		// Área de texto
-		JTextArea textArea = new JTextArea();
+		textArea = new JTextArea();
 		textArea.setLineWrap(true);
-		textArea.setForeground(new Color(0, 109, 119));
 		textArea.setEditable(false);
 		textArea.setMargin(new Insets(5, 15, 5, 15));
 		textArea.setBackground(new Color(235, 243, 255));
@@ -225,15 +247,16 @@ public class FormularioArchivos extends JFrame {
 		contentPane.add(textArea);
 
 		// Area de scroll para el área de texto
-		JScrollPane scrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+		scrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.getVerticalScrollBar().setUI(new NewScrollBar());
 		scrollPane.setBorder(bordertxtFields);
+		scrollPane.getViewport().setOpaque(true);
 		scrollPane.setBounds(105, 420, 700, 370);
 		contentPane.add(scrollPane);
 
 		// Botón - Alta
-		JButton btnAlta = new RoundButton();
+		btnAlta = new RoundButton();
 		btnAlta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String description = txtDesc.getText();
@@ -256,7 +279,7 @@ public class FormularioArchivos extends JFrame {
 		contentPane.add(btnAlta);
 
 		// Botón - Visualizar
-		JButton btnVisualizar = new RoundButton();
+		btnVisualizar = new RoundButton();
 		btnVisualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textArea.setText("");
@@ -267,18 +290,72 @@ public class FormularioArchivos extends JFrame {
 		btnVisualizar.setBounds(320, 820, 279, 49);
 		contentPane.add(btnVisualizar);
 
-		JLabel lblRectangle1 = new JLabel("");
+		lblRectangle1 = new JLabel("");
 		Image newRecImg1 = rectangle1.getImage().getScaledInstance(800, 339, java.awt.Image.SCALE_SMOOTH);
 		lblRectangle1.setIcon(new ImageIcon(newRecImg1));
 		lblRectangle1.setBounds(60, 15, 800, 339);
 		contentPane.add(lblRectangle1);
 
-		JLabel lblRectangle2 = new JLabel("");
+		lblRectangle2 = new JLabel("");
 		lblRectangle2.setBounds(60, 370, 800, 520);
 		Image newRecImg2 = rectangle2.getImage().getScaledInstance(800, 520, java.awt.Image.SCALE_SMOOTH);
 		lblRectangle2.setIcon(new ImageIcon(newRecImg2));
 		contentPane.add(lblRectangle2);
 
+	}
+
+	/**
+	 * Recoloca los elementos de la pantalla en el momento que la ventana pasa a
+	 * completa, o parcial.
+	 */
+	private static void relocateElements() {
+		Dimension screen = frame.getSize();
+		int screenW = screen.width;
+		int screenH = screen.height;
+
+		if (screenW > 980) {
+			if (screenH > 1000) {
+				lblGafas.setBounds((screenW / 2 - 980 / 2) + 621, screenH / 2 + 198, 343, 249);
+			} else {
+				lblGafas.setBounds((screenW / 2 - 980 / 2) + 621, 198, 343, 249);
+			}
+			textArea.setBounds((screenW / 2 - 980 / 2) + 105, 420, 700, 370);
+			scrollPane.setBounds((screenW / 2 - 980 / 2) + 105, 420, 700, 370);
+			lblClip1.setBounds((screenW / 2 - 980 / 2) + 75, 385, 25, 25);
+			lblClip2.setBounds((screenW / 2 - 980 / 2) + 820, 385, 25, 25);
+			lblClip3.setBounds((screenW / 2 - 980 / 2) + 75, 30, 25, 25);
+			lblClip4.setBounds((screenW / 2 - 980 / 2) + 820, 30, 25, 25);
+			lblDesc.setBounds((screenW / 2 - 980 / 2) + 250, 30, 235, 49);
+			lblPrecio.setBounds((screenW / 2 - 980 / 2) + 250, 135, 235, 49);
+			lblAlta.setBounds((screenW / 2 - 980 / 2) + 440, 280, 53, 49);
+			lblVisualizar.setBounds((screenW / 2 - 980 / 2) + 370, 820, 205, 49);
+			txtDesc.setBounds((screenW / 2 - 980 / 2) + 248, 80, 441, 49);
+			txtPrice.setBounds((screenW / 2 - 980 / 2) + 248, 185, 441, 49);
+			lblError.setBounds((screenW / 2 - 980 / 2) + 252, 235, 590, 40);
+			btnAlta.setBounds((screenW / 2 - 980 / 2) + 320, 280, 279, 49);
+			btnVisualizar.setBounds((screenW / 2 - 980 / 2) + 320, 820, 279, 49);
+			lblRectangle1.setBounds((screenW / 2 - 980 / 2) + 60, 15, 800, 339);
+			lblRectangle2.setBounds((screenW / 2 - 980 / 2) + 60, 370, 800, 520);
+		} else {
+			lblGafas.setBounds(621, 198, 343, 249);
+			lblClip1.setBounds(75, 385, 25, 25);
+			lblClip2.setBounds(820, 385, 25, 25);
+			lblClip3.setBounds(820, 30, 25, 25);
+			lblClip4.setBounds(75, 30, 25, 25);
+			lblDesc.setBounds(250, 30, 235, 49);
+			lblPrecio.setBounds(250, 135, 235, 49);
+			lblAlta.setBounds(440, 280, 53, 49);
+			lblVisualizar.setBounds(370, 820, 205, 49);
+			txtDesc.setBounds(248, 80, 441, 49);
+			txtPrice.setBounds(248, 185, 441, 49);
+			lblError.setBounds(252, 235, 590, 40);
+			scrollPane.setBounds(105, 420, 700, 370);
+			textArea.setBounds(105, 420, 700, 370);
+			btnAlta.setBounds(320, 280, 279, 49);
+			btnVisualizar.setBounds(320, 820, 279, 49);
+			lblRectangle1.setBounds(60, 15, 800, 339);
+			lblRectangle2.setBounds(60, 370, 800, 520);
+		}
 	}
 
 	/**
@@ -362,4 +439,5 @@ public class FormularioArchivos extends JFrame {
 		return mensaje;
 
 	}
+
 }
